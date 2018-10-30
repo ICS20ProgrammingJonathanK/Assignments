@@ -39,28 +39,23 @@ local totalSeconds = 10
 local secondsLeft = 10
 local clockText
 local countDownTimer
-<<<<<<< HEAD
 
 local lives = 4
 local heart1
 local heart2
 local heart3
 local heart4
-=======
 local timeTextObject
 
 local lives = 3
 local heart1
 local heart2
 local heart3
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
-
 
 ---------------------------------------------------
 -- SOUNDS
 -------------------------------------------------
 
-<<<<<<< HEAD
 
 -- Correct sound
 local theGong = audio.loadSound( "Sounds/theGong.mp3" ) -- Setting a variable to an mp3 file
@@ -68,9 +63,6 @@ local correctSoundChannel
 local theExtra = audio.loadSound( "Sounds/theExtra.mp3" ) -- Setting a variable to an mp3 file
 local theGongChannel
 local theExtraChannel
-
-=======
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
  
 
 ---------------------------------------------------
@@ -78,7 +70,6 @@ local theExtraChannel
 -------------------------------------------------
 
 local function UpdateLives()
-<<<<<<< HEAD
 	if (lives == 3) then
     	heart4.isVisible = false	
     elseif (lives == 2) then
@@ -91,35 +82,22 @@ local function UpdateLives()
         timer.cancel(countDownTimer)
         numericField.isVisible = false
         wrongSoundChannel = audio.play(wrongSound)
-=======
-	if (lives == 2) then
-    	heart3.isVisible = false	
-    elseif (lives == 1) then
-        heart2.isVisible = false
-    elseif (lives == 0) then
-        heart1.isVisible = false
-        gameOver.isVisible = true
-        timer.cancel(countDownTimer)
-        numericField.isVisible = false
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
     end 
 end
 
 local function UpdateTime()
 
 	-- decrement the number of seconds left
-<<<<<<< HEAD
 	secondsLeft = secondsLeft -1
 
 	-- display the number of seconds left in the clock object
 	clockText.text = secondsLeft .. ""
-=======
+
 	secondsLeft = secondsLeft - 1
 
 	-- display the number of seconds left in the clock object
 	clockText.text = " Time remaining = ".. secondsLeft .. "", 40
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
-    
+
     if (secondsLeft == 0) then
     	-- reset the number of seconds left in the clock object
     	secondsLeft = totalSeconds
@@ -138,11 +116,7 @@ end
 
  local function AskQuestion()
 	-- generate 2 random numbers between a max. and a min. number
-<<<<<<< HEAD
-	randomOperator = math.random(1, 3)
-=======
 	randomOperator = math.random(1, 4)
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
 	randomNumber1 = math.random(0, 12)
 	randomNumber2 = math.random(0, 11)
 
@@ -163,8 +137,6 @@ end
 
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " * " .. randomNumber2 .. " = "
-<<<<<<< HEAD
-=======
 
     	elseif (randomOperator == 4) then
  		correctAnswer = randomNumber1 / randomNumber2
@@ -173,8 +145,6 @@ end
     	questionObject.text = randomNumber1 .. " / " .. randomNumber2 .. " = "
 
     	print ( math.round ( correctAnswer ) )
-
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
     end
 end
 
@@ -212,11 +182,9 @@ local function NumericFieldListener(event)
 			secondsLeft = totalSeconds + 1
 
 		     -- create increasing points in the text object
-<<<<<<< HEAD
 			 pointsTextObject.text = "Points = ".. numberPoints
-=======
+
 			 pointsTextObject.text = "Numbers correct = ".. numberPoints
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
 	    else
 	    	correctObject.isVisible = false
 	    	incorrectObject.isVisible = true
@@ -239,11 +207,9 @@ end
 -------------------------------------------------
 
 -- create points box adn make it visible
-<<<<<<< HEAD
 pointsTextObject = display.newText( "Points = ".. numberPoints, 800, 385, nil, 50 )
-=======
 pointsTextObject = display.newText( "Numbers correct = ".. numberPoints, 800, 385, nil, 40 )
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
+
 pointsTextObject:setTextColor(155/255, 42/255, 198/255)
 
 
@@ -276,13 +242,11 @@ numericField.inputType = "number"
 numericField:addEventListener( "userInput", NumericFieldListener )
 
 -- add background image
-<<<<<<< HEAD
 gameOver = display.newImageRect("Images/gameOver.png", 1350, 900)
 gameOver.x = 520
 gameOver.y = 348
 gameOver.isVisible = false
 
-=======
 gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
 gameOver.x = 510
 gameOver.y = 390
@@ -300,7 +264,6 @@ heart2.y = display.contentHeight * 1 / 7
 heart3 = display.newImageRect("Images/heartLife3.png", 100, 100)
 heart3.x = display.contentWidth * 5 / 8
 heart3.y = display.contentHeight * 1 / 7
->>>>>>> dd8b189f04229617deab1ec2b431d74417dadafa
 
 ---------------------------------------------------
 -- FUNCTION CALLS
