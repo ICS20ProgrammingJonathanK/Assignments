@@ -43,6 +43,12 @@ local totalSeconds = 10
 local secondsLeft = 10
 local clockText
 local countDownTimer
+
+local lives = 4
+local heart1
+local heart2
+local heart3
+local heart4
 local timeTextObject
 
 local lives = 3
@@ -50,11 +56,17 @@ local heart1
 local heart2
 local heart3
 
-
 ---------------------------------------------------
 -- SOUNDS
 -------------------------------------------------
 
+
+-- Correct sound
+local theGong = audio.loadSound( "Sounds/theGong.mp3" ) -- Setting a variable to an mp3 file
+local correctSoundChannel
+local theExtra = audio.loadSound( "Sounds/theExtra.mp3" ) -- Setting a variable to an mp3 file
+local theGongChannel
+local theExtraChannel
  
 
 ---------------------------------------------------
@@ -62,26 +74,34 @@ local heart3
 -------------------------------------------------
 
 local function UpdateLives()
-	if (lives == 2) then
-    	heart3.isVisible = false	
+	if (lives == 3) then
+    	heart4.isVisible = false	
+    elseif (lives == 2) then
+        heart3.isVisible = false
     elseif (lives == 1) then
         heart2.isVisible = false
     elseif (lives == 0) then
-        heart1.isVisible = false
+    	heart1.isVisible = false
         gameOver.isVisible = true
         timer.cancel(countDownTimer)
         numericField.isVisible = false
+        wrongSoundChannel = audio.play(wrongSound)
     end 
 end
 
 local function UpdateTime()
 
 	-- decrement the number of seconds left
+	secondsLeft = secondsLeft -1
+
+	-- display the number of seconds left in the clock object
+	clockText.text = secondsLeft .. ""
+
 	secondsLeft = secondsLeft - 1
 
 	-- display the number of seconds left in the clock object
 	clockText.text = " Time remaining = ".. secondsLeft .. "", 40
-    
+
     if (secondsLeft == 0) then
     	-- reset the number of seconds left in the clock object
     	secondsLeft = totalSeconds
@@ -132,8 +152,12 @@ end
     	-- create question in the text object
     	questionObject.text = randomNumber3 .. " / " .. randomNumber4 .. " = "
 
+<<<<<<< HEAD
     	print ( math.round ( 0.5 ) )
 
+=======
+    	print ( math.round ( correctAnswer ) )
+>>>>>>> 4762e2beaee6fec478e9dd70ff53fa1c531e5b6a
     end
 end
 
@@ -171,6 +195,8 @@ local function NumericFieldListener(event)
 			secondsLeft = totalSeconds + 1
 
 		     -- create increasing points in the text object
+			 pointsTextObject.text = "Points = ".. numberPoints
+
 			 pointsTextObject.text = "Numbers correct = ".. numberPoints
 	    else
 	    	correctObject.isVisible = false
@@ -194,7 +220,9 @@ end
 -------------------------------------------------
 
 -- create points box adn make it visible
+pointsTextObject = display.newText( "Points = ".. numberPoints, 800, 385, nil, 50 )
 pointsTextObject = display.newText( "Numbers correct = ".. numberPoints, 800, 385, nil, 40 )
+
 pointsTextObject:setTextColor(155/255, 42/255, 198/255)
 
 
@@ -227,7 +255,16 @@ numericField.inputType = "default"
 numericField:addEventListener( "userInput", NumericFieldListener )
 
 -- add background image
+<<<<<<< HEAD
 gameOver = display.newImageRect("Images/gameOver.png", 955, 700)
+=======
+gameOver = display.newImageRect("Images/gameOver.png", 1350, 900)
+gameOver.x = 520
+gameOver.y = 348
+gameOver.isVisible = false
+
+gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
+>>>>>>> 4762e2beaee6fec478e9dd70ff53fa1c531e5b6a
 gameOver.x = 510
 gameOver.y = 385
 gameOver.isVisible = false
