@@ -23,6 +23,10 @@ local numericField
 
 local randomNumber1
 local randomNumber2
+local randomNumber3
+local randomNumber4
+local n = (math.random(10))
+local m = (math.random(1))
 local userAnswer
 local correctAnswer
 
@@ -97,34 +101,38 @@ end
  local function AskQuestion()
 	-- generate 2 random numbers between a max. and a min. number
 	randomOperator = math.random(1, 4)
-	randomNumber1 = math.random(0, 12)
-	randomNumber2 = math.random(0, 11)
+	randomNumber1 = math.random(1, 20)
+	randomNumber2 = math.random(1, 20)
+	randomNumber3 = math.random(n)
+	randomNumber4 = math.random(m)
 
 	if (randomOperator == 1) then
 		correctAnswer = randomNumber1 + randomNumber2
+		
 
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
 
 	elseif (randomOperator == 2) then
 		correctAnswer = randomNumber1 - randomNumber2
+	
 
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " - " .. randomNumber2 .. " = "
  	
      elseif (randomOperator == 3) then
- 		correctAnswer = randomNumber1 * randomNumber2
-
+ 		correctAnswer = randomNumber3 * randomNumber4
+ 		
     	-- create question in the text object
-    	questionObject.text = randomNumber1 .. " * " .. randomNumber2 .. " = "
+    	questionObject.text = randomNumber3 .. " * " .. randomNumber4 .. " = "
 
     	elseif (randomOperator == 4) then
- 		correctAnswer = randomNumber1 / randomNumber2
-
+ 		correctAnswer = randomNumber3 / randomNumber4
+ 		
     	-- create question in the text object
-    	questionObject.text = randomNumber1 .. " / " .. randomNumber2 .. " = "
+    	questionObject.text = randomNumber3 .. " / " .. randomNumber4 .. " = "
 
-    	print ( math.round ( correctAnswer ) )
+    	print ( math.round ( 0.5 ) )
 
     end
 end
@@ -213,15 +221,15 @@ clockText.y = 600
 
 -- Create numeric field
 numericField = native.newTextField( 520, 380, 150, 90 )
-numericField.inputType = "number"
+numericField.inputType = "default"
 
 -- add the event listener for the numeric field
 numericField:addEventListener( "userInput", NumericFieldListener )
 
 -- add background image
-gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
+gameOver = display.newImageRect("Images/gameOver.png", 955, 700)
 gameOver.x = 510
-gameOver.y = 390
+gameOver.y = 385
 gameOver.isVisible = false
 
 -- create the lives to display on the screen
