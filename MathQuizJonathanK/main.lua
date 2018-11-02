@@ -20,13 +20,6 @@ local correctObject
 local incorrectObject
 
 local numericField
-
-local randomNumber1
-local randomNumber2
-local randomNumber3
-local randomNumber4
-local n = (math.random(10))
-local m = (math.random(1))
 local userAnswer
 local correctAnswer
 
@@ -39,23 +32,16 @@ local gameOver
 -- variables for the timer
 local totalSeconds = 15
 local secondsLeft = 15
-local totalSeconds = 10
-local secondsLeft = 10
 local clockText
 local countDownTimer
-
-local lives = 4
-local heart1
-local heart2
-local heart3
-local heart4
-local timeTextObject
 
 local lives = 3
 local heart1
 local heart2
 local heart3
 
+local randomNumber1
+local randomNumber2
 ---------------------------------------------------
 -- SOUNDS
 -------------------------------------------------
@@ -74,9 +60,7 @@ local theExtraChannel
 -------------------------------------------------
 
 local function UpdateLives()
-	if (lives == 3) then
-    	heart4.isVisible = false	
-    elseif (lives == 2) then
+    if (lives == 2) then
         heart3.isVisible = false
     elseif (lives == 1) then
         heart2.isVisible = false
@@ -92,20 +76,17 @@ end
 local function UpdateTime()
 
 	-- decrement the number of seconds left
-	secondsLeft = secondsLeft -1
+	secondsLeft = secondsLeft - 1
 
 	-- display the number of seconds left in the clock object
 	clockText.text = secondsLeft .. ""
-
-	secondsLeft = secondsLeft - 1
 
 	-- display the number of seconds left in the clock object
 	clockText.text = " Time remaining = ".. secondsLeft .. "", 40
 
     if (secondsLeft == 0) then
     	-- reset the number of seconds left in the clock object
-    	secondsLeft = totalSeconds
-    	lives = lives - 1
+    	secondsLeft = totalSeconds - 0
 
     	UpdateLives()
     end
@@ -123,41 +104,42 @@ end
 	randomOperator = math.random(1, 4)
 	randomNumber1 = math.random(1, 20)
 	randomNumber2 = math.random(1, 20)
-	randomNumber3 = math.random(n)
-	randomNumber4 = math.random(m)
 
 	if (randomOperator == 1) then
 		correctAnswer = randomNumber1 + randomNumber2
-		
 
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
+    	
+     randomNumber1 = math.random(1, 20)
+	 randomNumber2 = math.random(1, 20)
 
 	elseif (randomOperator == 2) then
 		correctAnswer = randomNumber1 - randomNumber2
-	
 
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " - " .. randomNumber2 .. " = "
+
+     randomNumber1 = math.random(1, 20)
+	 randomNumber2 = math.random(1, 20)
  	
      elseif (randomOperator == 3) then
- 		correctAnswer = randomNumber3 * randomNumber4
+ 		correctAnswer = randomNumber1 * randomNumber2
  		
     	-- create question in the text object
-    	questionObject.text = randomNumber3 .. " * " .. randomNumber4 .. " = "
+    	questionObject.text = randomNumber1 .. " * " .. randomNumber2 .. " = "
+
+     randomNumber1 = math.random(1, 10)
+	 randomNumber2 = math.random(1, 10)
 
     	elseif (randomOperator == 4) then
- 		correctAnswer = randomNumber3 / randomNumber4
+ 		correctAnswer = randomNumber1 / randomNumber2
  		
     	-- create question in the text object
-    	questionObject.text = randomNumber3 .. " / " .. randomNumber4 .. " = "
+    	questionObject.text = randomNumber1 .. " / " .. randomNumber2 .. " = "
 
-<<<<<<< HEAD
-    	print ( math.round ( 0.5 ) )
-
-=======
-    	print ( math.round ( correctAnswer ) )
->>>>>>> 4762e2beaee6fec478e9dd70ff53fa1c531e5b6a
+     randomNumber1 = math.random(1, 100)
+     randomNumber2 = math.random(1, 100)
     end
 end
 
@@ -190,19 +172,15 @@ local function NumericFieldListener(event)
 			incorrectObject.isVisible = false
 			correctSoundChannel = audio.play(correctSound)
 			timer.performWithDelay(1000, hideCorrect, 0)
-			timer.performWithDelay(2000, hideCorrect, 0)
 			numberPoints = numberPoints + 1
 			secondsLeft = totalSeconds + 1
-
-		     -- create increasing points in the text object
-			 pointsTextObject.text = "Points = ".. numberPoints
 
 			 pointsTextObject.text = "Numbers correct = ".. numberPoints
 	    else
 	    	correctObject.isVisible = false
 	    	incorrectObject.isVisible = true
 	    	wrongSoundChannel = audio.play(wrongSound)
-	    	timer.performWithDelay(2000, hideIncorrect)
+	    	timer.performWithDelay(1000, hideIncorrect)
 	    	lives = lives - 1
 	    	secondsLeft = totalSeconds + 1
 
@@ -220,9 +198,7 @@ end
 -------------------------------------------------
 
 -- create points box adn make it visible
-pointsTextObject = display.newText( "Points = ".. numberPoints, 800, 385, nil, 50 )
 pointsTextObject = display.newText( "Numbers correct = ".. numberPoints, 800, 385, nil, 40 )
-
 pointsTextObject:setTextColor(155/255, 42/255, 198/255)
 
 
@@ -244,7 +220,7 @@ incorrectObject.isVisible = false
 clockText = display.newText( "", display.contentWidth/2, display.contentHeight*2/3, nil, 100 )
 clockText:setTextColor(155/255, 42/255, 198/255)
 clockText.isVisible = true
-clockText.x = 200
+clockText.x = 500
 clockText.y = 600
 
 -- Create numeric field
@@ -255,16 +231,7 @@ numericField.inputType = "default"
 numericField:addEventListener( "userInput", NumericFieldListener )
 
 -- add background image
-<<<<<<< HEAD
-gameOver = display.newImageRect("Images/gameOver.png", 955, 700)
-=======
-gameOver = display.newImageRect("Images/gameOver.png", 1350, 900)
-gameOver.x = 520
-gameOver.y = 348
-gameOver.isVisible = false
-
 gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
->>>>>>> 4762e2beaee6fec478e9dd70ff53fa1c531e5b6a
 gameOver.x = 510
 gameOver.y = 385
 gameOver.isVisible = false
