@@ -1,7 +1,8 @@
 -----------------------------------------------------------------------------------------
---
--- main.lua
---
+-- Title: Math quiz
+-- Name: Jonathan Kene
+-- Course: ICS20 programming
+-- this programs displays a math question that the user must answer correctly in order to win the game.
 -----------------------------------------------------------------------------------------
 
 -- hide the status bar
@@ -56,11 +57,14 @@ local randomNumber2
 -- Correct sound
 local theGong = audio.loadSound( "Sounds/theGong.mp3" ) -- Setting a variable to an mp3 file
 local theGongChannel
+local theExtra = audio.loadStream( "Sounds/theExtra.mp3" [, baseDir ] ) -- Setting a variable to an mp3 file
+local theExtraChannel
+local wrong = audio.loadSound( "Sounds/wrong.mp3" ) -- Setting a variable to an mp3 file
+local wrongChannel
+local correct = audio.loadSound( "Sounds/correct.mp3" ) -- Setting a variable to an mp3 file
+local correctChannel
 local theExtra = audio.loadSound( "Sounds/theExtra.mp3" ) -- Setting a variable to an mp3 file
 local theExtraChannel
---local wrongSound = audio.loadSound( "Sounds/wrongSound.mp3" )
---local wrongSoundChannel
- 
 
 ---------------------------------------------------
 --LOCAL FUNCTIONS
@@ -76,10 +80,14 @@ local function UpdateLives()
     --
     elseif (lives == 0) then
     	heart1.isVisible = false
-    	--
+
+      wrongSoundChannel = audio.play(wrongSound)
+    	
         gameOver.isVisible = true
-        --
+
         timer.cancel(countDownTimer)
+        --
+        clockText.isVisible = false
         --
         numericField.isVisible = false
     end 
@@ -111,13 +119,11 @@ end
 
 local function AskQuestion()
 	-- generate 2 random numbers between a max. and a min. number
-	randomOperator = math.random(1, 5)
+	randomOperator = math.random(1, 6)
     powers = math.random(1, 5)
-	randomNumber1 = math.random(1, 20)
-	randomNumber2 = math.random(1, 20)
 
-	if (randomOperator == 1) then
-
+    if (randomOperator == 1) then
+    -- randomly generate the number between x to y
 		randomNumber1 = math.random(1, 20)
 	 	randomNumber2 = math.random(1, 20)
 
@@ -128,7 +134,7 @@ local function AskQuestion()
 
 	elseif (randomOperator == 2) then
 
-	 	randomNumber1 = math.random(1, 20)
+	 	 randomNumber1 = math.random(1, 20)
      	randomNumber2 = math.random(1, 20)
 
      	if (randomNumber1 < randomNumber2) then
@@ -155,17 +161,13 @@ local function AskQuestion()
     elseif (randomOperator == 4) then
 
      	randomNumber1 = math.random(1, 12)
-	 	randomNumber2 = math.random(1, 12)
+	 	  randomNumber2 = math.random(1, 12)
 
+     correctAnswer = randomNumber1 / randomNumber2
+    
         temp = randomNumber1 * randomNumber2
 
         correctAnswer = temp / randomNumber2
-
-     randomNumber1 = math.random(1, 10)
-	 randomNumber2 = math.random(1, 10)
-
-    	elseif (randomOperator == 4) then
- 		correctAnswer = randomNumber1 / randomNumber2
  		
     	-- create question in the text object
     	questionObject.text = temp .. " / " .. randomNumber2 .. " = "
@@ -173,7 +175,7 @@ local function AskQuestion()
     elseif (randomOperator == 5) then
 
      	randomNumber1 = math.random(1, 10)
-	 	randomNumber2 = math.random(1, 3)
+	  	randomNumber2 = math.random(1, 3)
 
         exponent = math.pow(randomNumber1, randomNumber2)
 
@@ -182,8 +184,17 @@ local function AskQuestion()
     	-- create question in the text object
     	questionObject.text = randomNumber1 .. " ^ " .. randomNumber2 .. " = "
 
-     randomNumber1 = math.random(1, 100)
-     randomNumber2 = math.random(1, 100)
+    elseif (randomOperator == 6) then
+      randomNumber1 = math.random(1, 10)
+
+      -- square the number
+      temp = randomNumber1 * randomNumber1
+
+      correctAnswer = math.sqrt(temp)
+
+      -- create a question in the numeric text object
+      questionObject.text = temp .. " sqrt = "
+  
     end
 end
 
@@ -209,17 +220,17 @@ local function YouWin()
 	if (numberPoints == 5) then
 
 		heart1.isVisible = false
-        heart2.isVisible = false
-        heart3.isVisible = false
-        clockText.isVisible = false
-        numericField.isVisible = false
-        timer.cancel(countDownTimer)
-        gameOver.isVisible = false
+    heart2.isVisible = false
+    heart3.isVisible = false
+    questionObject.isVisible = false
+    clockText.isVisible = false
+    pointsTextObject.isVisible = false
+    numericField.isVisible = false
+    timer.cancel(countDownTimer)
+    gameOver.isVisible = false
 		youWinTheGame.isVisible = true
-
-
-
-	end
+    theGongChannel = audio.play(theGongSound)
+  end
 end
 
 local function NumericFieldListener(event)
@@ -244,27 +255,24 @@ local function NumericFieldListener(event)
 
 			YouWin()
 
-            theGongSoundChannel = audio.play(theGongSound)
+      theGongSoundChannel = audio.play(theGongSound)
 
 			timer.performWithDelay(1000, hideCorrect)
 
 			numberPoints = numberPoints + 1
-            secondsLeft = totalSeconds + 1
+      secondsLeft = totalSeconds + 1
 
-		  -- create points box adn make it visible
+		  -- create points box and make it visible
           pointsTextObject.text = "Numbers correct = ".. numberPoints
           -- if not the same
 	    else
 	    	-- the images are visible or not visible
 	    	correctObject.isVisible = false
 	    	incorrectObject.isVisible = true
-	    	incorrectText.text = "Sorry! the correct answer is" .. correctAnswer
 	    	wrongSoundChannel = audio.play(wrongSound)
 	    	timer.performWithDelay(1000, hideIncorrect)
 	    	lives = lives - 1
 	    	secondsLeft = totalSeconds + 1
-	    	incorrectText.isVisible = true
-
 	    	
 	     -- call the function to decrease lives
 	    	UpdateLives()
@@ -285,19 +293,11 @@ pointsTextObject:setTextColor(155/255, 42/255, 198/255)
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2, nil, 50 )
 questionObject:setTextColor(155/255, 42/255, 198/255)
 
-pointsTextObject = display.newText( "Numbers correct = ".. numberPoints, 800, 385, nil, 40 )
-pointsTextObject:setTextColor(155/255, 42/255, 198/255)
-
 -- create the correct text object and make it invisble
 correctObject = display.newText( "Correct!", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
 correctObject:setTextColor(155/255, 42/255, 198/255)
 correctObject.isVisible = false
 
-incorrectText = display.newText( "Sorry! the correct answer is" .. correctAnswer,  800, 385, nil, 40 )
-incorrectText:setTextColor(155/255, 42/255, 198/255)
-incorrectText.isVisible = false
-incorrectText.x = 400
-incorrectText.y = 900
 
 -- create the incorrect text object and make it invisble
 incorrectObject = display.newText( "Incorrect!", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
@@ -335,7 +335,7 @@ youWinTheGame.isVisible = false
 gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
 gameOver.x = 510
 gameOver.y = 385
-gameOver.isVisible = false9
+gameOver.isVisible = falseS
 
 -- create the lives to display on the screen
 heart1 = display.newImageRect("Images/heartLife.png", 100, 100)
