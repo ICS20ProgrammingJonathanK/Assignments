@@ -10,17 +10,14 @@ display.setStatusBar(display.HiddenStatusBar)
 
 -- sets the background colour
 display.setDefault("background", 124/255, 249/255, 199/255)
-
 ---------------------------------------------------
 --LOCAL VARIABLES
--------------------------------------------------
-
+---------------------------------------------------
 local questionObject
 
 local correctObject
 local incorrectObject
 local incorrectText
-
 local numericField
 
 local userAnswer
@@ -30,7 +27,6 @@ local temp
 
 local pointsTextObject
 local numberPoints = 0
-
 local randomOperator
 local gameOver
 
@@ -44,7 +40,6 @@ local lives = 3
 local heart1
 local heart2
 local heart3
-
 local youWinTheGame
 
 local randomNumber1
@@ -57,18 +52,22 @@ local randomNumber2
 -- Correct sound
 local theGong = audio.loadSound( "Sounds/theGong.mp3" ) -- Setting a variable to an mp3 file
 local theGongChannel
-local theExtra = audio.loadStream( "Sounds/theExtra.mp3" [, baseDir ] ) -- Setting a variable to an mp3 file
+local theExtra = audio.loadStream( "Sounds/theExtra.mp3" ) -- Setting a variable to an mp3 file
 local theExtraChannel
 local wrong = audio.loadSound( "Sounds/wrong.mp3" ) -- Setting a variable to an mp3 file
 local wrongChannel
 local correct = audio.loadSound( "Sounds/correct.mp3" ) -- Setting a variable to an mp3 file
 local correctChannel
-local theExtra = audio.loadSound( "Sounds/theExtra.mp3" ) -- Setting a variable to an mp3 file
+local endError = audio.loadSound( "Sounds/endError.mp3" ) -- Setting a variable to an mp3 file
 local theExtraChannel
 
 ---------------------------------------------------
 --LOCAL FUNCTIONS
 -------------------------------------------------
+
+local playTheExtra = audio.play(theExtra)
+
+local playTheGong= audio.play(theGong)
 
 local function UpdateLives()
     --
@@ -81,7 +80,7 @@ local function UpdateLives()
     elseif (lives == 0) then
     	heart1.isVisible = false
 
-      wrongSoundChannel = audio.play(wrongSound)
+     endErrorChannel = audio.play(endError)
     	
         gameOver.isVisible = true
 
@@ -229,7 +228,8 @@ local function YouWin()
     timer.cancel(countDownTimer)
     gameOver.isVisible = false
 		youWinTheGame.isVisible = true
-    theGongChannel = audio.play(theGongSound)
+  local playTheExtra = audio.play(theExtra)
+  local playTheGong= audio.play(theGong)
   end
 end
 
@@ -248,14 +248,14 @@ local function NumericFieldListener(event)
 
 		-- if the user answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
-
+       -- display images that shoulb visble or not visible
 			correctObject.isVisible = true
 
 			incorrectObject.isVisible = false
 
 			YouWin()
 
-      theGongSoundChannel = audio.play(theGongSound)
+      correctChannel = audio.play(correct)
 
 			timer.performWithDelay(1000, hideCorrect)
 
@@ -269,7 +269,7 @@ local function NumericFieldListener(event)
 	    	-- the images are visible or not visible
 	    	correctObject.isVisible = false
 	    	incorrectObject.isVisible = true
-	    	wrongSoundChannel = audio.play(wrongSound)
+	    	wrongChannel = audio.play(wrong)
 	    	timer.performWithDelay(1000, hideIncorrect)
 	    	lives = lives - 1
 	    	secondsLeft = totalSeconds + 1
@@ -335,7 +335,7 @@ youWinTheGame.isVisible = false
 gameOver = display.newImageRect("Images/gameOver.png", 1030, 775)
 gameOver.x = 510
 gameOver.y = 385
-gameOver.isVisible = falseS
+gameOver.isVisible = false
 
 -- create the lives to display on the screen
 heart1 = display.newImageRect("Images/heartLife.png", 100, 100)
