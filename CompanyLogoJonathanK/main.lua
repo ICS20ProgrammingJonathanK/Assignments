@@ -39,6 +39,7 @@ transition.scaleTo( {xScale = 2, yScale = 2, time = 2000} )
 
 	-- MoveShield will be called over and over again
 Runtime:addEventListener("enterFrame", MoveShield)
+
 -- Function: MoveSword 
 -- Input: this function accepts an event listener
 -- Output: none
