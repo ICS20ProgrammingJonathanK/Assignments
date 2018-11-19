@@ -17,7 +17,7 @@ sword.y = 400
 
 -- displays text on the screen at position x = 400 and y = 5 with
 -- a deafult font style and font size of 30
-textObject = display.newText( "Dark Exalibur", 500, 650, nil, 100)
+textObject = display.newText( "Dark Escalibur", 500, 650, nil, 100)
 
 
 local function GrowSword(event)
