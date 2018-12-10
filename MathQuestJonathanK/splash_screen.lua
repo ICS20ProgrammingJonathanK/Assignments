@@ -24,8 +24,8 @@ local scene = composer.newScene( sceneName )
  
 -- The local variables for this scene
 local sword
-local scrollXSpeed = 100
-local scrollYSpeed = -3
+local scrollXSpeed = 10
+local scrollYSpeed = 10
 local jungleSounds = audio.loadSound("Sounds/animals144.mp3")
 local jungleSoundsChannel
 
@@ -37,7 +37,8 @@ local jungleSoundsChannel
 local function moveSword()
     sword.x = sword.x + scrollXSpeed
     sword.y = sword.y + scrollYSpeed
-    transition.fadeOut( textObject, { time = 2000 } )
+    transition.moveTo( sword, { x = 500, y = 400, time = 2000 }  )
+    transition.fadeOut( textObject, { time = 5000 } )
 end
 
 local function GrowSword(event)
@@ -45,8 +46,8 @@ local function GrowSword(event)
     sword.x = sword.x + scrollXSpeed
     sword.y = sword.y + scrollYSpeed
      -- make the sword grow
-     transition.scaleTo( sword, { xScale = 2, yScale = 2, time = 1000 } )
-     transition.fadeOut( sword, { time = 2000 } )
+     transition.scaleTo( sword, { xScale = 10, yScale = 10, time = 3000 } )
+     transition.fadeOut( sword, { time = 5000 } )
 end
 
 
@@ -69,11 +70,11 @@ function scene:create( event )
     display.setDefault("background", 0, 0, 0)
 
     -- Insert the beetleship image
-   sword = display.newImageRect("Images/sword.png", 400, 400)
+   sword = display.newImageRect("Images/sword.png", 50, 50)
 
     -- set the initial x and y position of the beetleship
 
-    sword.x = 100
+    sword.x = 50
     sword.y = display.contentHeight/2
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
@@ -104,12 +105,11 @@ function scene:show( event )
         -- start the splash screen music
         jungleSoundsChannel = audio.play(jungleSounds )
 
-        -- Call the moveBeetleship function as soon as we enter the frame.
-        Runtime:addEventListener("enterFrame", moveSword)
-        Runtime:addEventListener("enterFrame", GrowSword)
+    GrowSword()
+    moveSword()
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu)          
+        timer.performWithDelay ( 4000, gotoMainMenu)          
         
     end
 
